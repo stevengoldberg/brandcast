@@ -30,3 +30,16 @@
     transform: rotate(360deg);
   }
 }
+
+.row {
+  border: 1px solid black;
+  height: 20px;
+  padding: 10px;
+  display: flex;
+}
+
+.add {
+  font-weight: bold;
+  margin-left: 10px;
+  cursor: pointer;
+}

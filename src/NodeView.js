@@ -2,9 +2,13 @@ import React, { Component } from 'react'
 
 class NodeView extends Component {
   render() {
-    console.log(this.props)
-    const { node } = this.props
-    return <div>{node.props.name}</div>
+    const { node, addChild } = this.props
+    return (
+      <div className="row">
+        {node.props.name}
+        <div className="add" onClick={() => addChild(node.id)}>+</div>
+      </div>
+    )
   }
 }
 

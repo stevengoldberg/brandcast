@@ -22,11 +22,12 @@ class TreeView extends Component {
   }
 
   constructNodeList = node => {
+    const { addChild } = this.props
     if (_.get(node, 'children.length')) {
       return (
-        <div>
-          <NodeView key={node.id} node={node} />
-          <div style={{ marginLeft: '10px' }}>
+        <div key={node.id}>
+          <NodeView node={node} addChild={addChild} />
+          <div style={{ paddingLeft: '15px' }}>
             {
               node.children.map(node => this.constructNodeList(node))
             }
@@ -34,13 +35,12 @@ class TreeView extends Component {
         </div>
       )
     }
-    return <NodeView node={node} />
+    return <NodeView key={node.id} node={node} addChild={addChild} />
   }
 
   render() {
     const { nodesById } = this.props
     const tree = this.buildTree(nodesById)
-    console.log(tree)
     return <div>{this.constructNodeList(tree[0])}</div>
   }
 }

@@ -38,14 +38,16 @@ class TreeContainer extends Component {
     }
   }
 
-  addNode = parentId => {
+  addChild = parentId => {
     const id = uuidv1()
     this.setState(state => ({
       ...state,
       [id]: {
         id,
         parentId,
-        props: {}
+        props: {
+          name: 'jim'
+        }
       }
     }))
   }
@@ -55,7 +57,12 @@ class TreeContainer extends Component {
   }
 
   render() {
-    return <TreeView nodesById={this.state} />
+    return (
+      <TreeView
+        nodesById={this.state}
+        addChild={this.addChild}
+      />
+    )
   }
 }
 
