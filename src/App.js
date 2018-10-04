@@ -1,28 +1,62 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react'
+import _ from 'lodash'
+import uuidv1 from 'uuid/v1'
+import TreeView from './TreeView'
 
-class App extends Component {
+class TreeContainer extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      1: {
+        id: 1,
+        props: {
+          name: 'bob',
+        },
+        parentId: null,
+      },
+      2: {
+        id: 2,
+        props: {
+          name: 'susan',
+        },
+        parentId: 1,
+      },
+      3: {
+        id: 3,
+        props: {
+          name: 'bill',
+        },
+        parentId: 1,
+      },
+      4: {
+        id: 4,
+        props: {
+          name: 'sally',
+        },
+        parentId: 2,
+      },
+    }
+  }
+
+  addNode = parentId => {
+    const id = uuidv1()
+    this.setState(state => ({
+      ...state,
+      [id]: {
+        id,
+        parentId,
+        props: {}
+      }
+    }))
+  }
+
+  removeNode = id => {
+    this.setState(state => _.omit(state, { id }))
+  }
+
   render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
+    return <TreeView nodesById={this.state} />
   }
 }
 
-export default App;
+export default TreeContainer
