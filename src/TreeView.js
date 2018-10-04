@@ -5,10 +5,12 @@ import './App.css'
 
 class TreeView extends Component {
   buildTree = nodesById => {
+    const compactNodes = _.pickBy(nodesById)
     const tree = []
-    const rootNode = _.find(nodesById, { parentId: null })
+    const rootNode = _.find(compactNodes, { parentId: null })
     const findChildren = node => {
-      const children = _.filter(nodesById, currentNode => node.id === currentNode.parentId)
+      debugger
+      const children = _.filter(compactNodes, currentNode => node.id === currentNode.parentId)
       return children.map(child => ({
         ...child,
         children: findChildren(child)
@@ -22,12 +24,12 @@ class TreeView extends Component {
   }
 
   constructNodeList = node => {
-    const { addChild } = this.props
+    const { addChild, removeNode } = this.props
     if (_.get(node, 'children.length')) {
       return (
         <div key={node.id}>
-          <NodeView node={node} addChild={addChild} />
-          <div style={{ paddingLeft: '15px' }}>
+          <NodeView node={node} addChild={addChild} removeNode={removeNode} />
+          <div style={{ paddingLeft: '20px' }}>
             {
               node.children.map(node => this.constructNodeList(node))
             }
@@ -35,7 +37,7 @@ class TreeView extends Component {
         </div>
       )
     }
-    return <NodeView key={node.id} node={node} addChild={addChild} />
+    return <NodeView key={node.id} node={node} addChild={addChild} removeNode={removeNode} />
   }
 
   render() {

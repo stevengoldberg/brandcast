@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import _ from 'lodash'
 import uuidv1 from 'uuid/v1'
 import TreeView from './TreeView'
 
@@ -40,8 +39,8 @@ class TreeContainer extends Component {
 
   addChild = parentId => {
     const id = uuidv1()
-    this.setState(state => ({
-      ...state,
+    this.setState({
+      ...this.state,
       [id]: {
         id,
         parentId,
@@ -49,11 +48,14 @@ class TreeContainer extends Component {
           name: 'jim'
         }
       }
-    }))
+    })
   }
 
   removeNode = id => {
-    this.setState(state => _.omit(state, { id }))
+    this.setState(state => ({
+      ...state,
+      [id]: undefined,
+    }))
   }
 
   render() {
@@ -61,6 +63,7 @@ class TreeContainer extends Component {
       <TreeView
         nodesById={this.state}
         addChild={this.addChild}
+        removeNode={this.removeNode}
       />
     )
   }
